@@ -1,0 +1,145 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width')
+    meta(name='mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='theme-color', content='#000000')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title Real Time Streaming
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='assets/css/app.css')
+    link(rel='apple-touch-icon', sizes='76x76', href='assets/img/favicon-76.png')
+    link(rel='apple-touch-icon', sizes='120x120', href='assets/img/favicon-120.png')
+    link(rel='apple-touch-icon', sizes='152x152', href='assets/img/favicon-152.png')
+    link(rel='icon', sizes='196x196', href='assets/img/favicon-196.png')
+    link(rel='icon', type='image/x-icon', href='assets/img/favicon.ico')
+  body
+    #load
+      .loader
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container-fluid
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#')
+            span.titleLogo
+            | &nbsp;&nbsp;
+            placeholder(id='titleText') Velo | Real Time
+        // Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.visible-xs-inline#leaderboardButton
+              a#showSidebarModal(href='#', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                | Leaderboard
+            li.dropdown
+              a#replayDrop.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false',style="display:#{replay}")
+                |   Replay
+                span.caret
+              ul.dropdown-menu
+                li
+                  a#hongkong-btn(href='#', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                    |   Replay Hong Kong
+                li
+                  a#rio-btn(href='#', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                    |   Replay Rio
+                li.divider(role='separator')
+                li
+                  a#stop-btn(href='#', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                    |   Stop Replay
+                //li
+                  a#swiss-btn(href='#', data-toggle='collapse', data-target='.navbar-collapse.in')
+                    |   Replay Swiss
+
+            li
+              a#manualcamera-btn(href='#', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                img(src='/assets/img/manual_camera.png', id='manualCameraImg' title='Manual Camera')
+            li
+              a#autocamera-btn(href='#', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                img(src='/assets/img/automatic_camera.png', id='automaticCameraImg' title='Automatic Camera')
+          ul.nav.navbar-nav.navbar-right
+            li
+              .dataPoints
+            li
+              #companyLogos
+                img(src='/assets/img/eylogo.png', id='eylogo' width=25, height=25)
+                img(src='/assets/img/eyc3Logo.png', id='c3logo' height=25)
+      .goldLine
+    #container
+      #sidebar
+        .sidebar-wrapper
+          #features.panel.panel-default
+            .panel-heading
+              h3.panel-title
+                img(src='/assets/img/refresh.png', id='refresh-leaderboard', title='Refresh')
+                .leader-board
+                  | Leaderboard
+                img(src='/assets/img/olympic_medals.png', id='medals')
+            .panel-body
+              .row
+                .col-xs-12.col-md-12
+                  input.form-control.search(type='text', placeholder='Filter', id='filter')
+                  #clear-filter(title='Clear')
+                    | x
+            .sidebar-table
+              table#velo-list.table.table-hover
+                //thead
+                  tr
+                    th
+                    th Rank
+                    th Athlete
+                    th Time
+                    th Distance
+                    th
+                tbody.list
+      #map
+        #dataGraph.dataGraphContent
+            #dataGraphII
+      #elevationChart
+    #stopReplayModal.modal.fade(tabindex='-1', role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title Stop Replay
+          .modal-body
+            label(for='pwd') Password:
+            input#pwd.form-control(type='password')
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            button#pwdSubmit.btn.btn-danger(type='button') Stop
+    #mobileSiderbar.modal.fade(tabindex='-1', role='dialog')
+      .modal-dialog
+        .modal-content#mobileSidebarContent
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title Leaderboard
+          .modal-body#mobileSidebarBody
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+    script(src='https://code.jquery.com/jquery-2.1.4.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js')
+    script(src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.2.0/sha256.js')
+    link(href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css', rel='stylesheet')
+    script(src='assets/js/canvasElevChart.js')
+    script(src='assets/js/sortElements.js')
+    script(src='assets/js/jsonpack/main.js')
+    script(src='assets/js/client.js')
+    script(src='assets/js/canvasJS.js')
+    script(src='assets/js/canvasVeloChart.js')
+    script(src='assets/js/racePath.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
